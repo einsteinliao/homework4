@@ -129,24 +129,36 @@ public class AddMemberUI extends JFrame {
 		panel_1.add(phone);
 		phone.setColumns(10);
 		
+		JLabel errorMsg = new JLabel("請輸入新會員資料");
+		errorMsg.setForeground(new Color(255, 0, 128));
+		errorMsg.setBounds(56, 199, 296, 15);
+		panel_1.add(errorMsg);
+		
 		JButton btnNewButton = new JButton("註冊");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String Loginid=loginid.getText();
-				
-				if(new MemberServiceImpl().isLoginidExists(Loginid))
+				String Name=name.getText();
+				String Password=password.getText();
+				String Address=address.getText();
+				String Phone=phone.getText();
+
+				if( Name.isEmpty() || Loginid.isEmpty() || Password.isEmpty() ||Phone.isEmpty()) {
+					errorMsg.setText("欄位資料不可以是空白");
+					return;
+				}
+				else if(! Tool.verifyPhone(Phone)) {
+					errorMsg.setText("電話格式錯誤!!");
+					return;
+				}
+				else if(new MemberServiceImpl().isLoginidExists(Loginid))
 				{
 					Tool.gotoAddMemberErrorUI();
 					dispose();
 				}
 				else
 				{
-					String Name=name.getText();
-					String Password=password.getText();
-					String Address=address.getText();
-					String Phone=phone.getText();
-										
 					Member member=new Member(Name, Loginid, Password, Address, Phone);
 					
 					new MemberServiceImpl().addMember(member);
@@ -161,6 +173,11 @@ public class AddMemberUI extends JFrame {
 		});
 		btnNewButton.setBounds(144, 224, 87, 23);
 		panel_1.add(btnNewButton);
+		
+		JLabel lblNewLabel_5 = new JLabel("格式為10位數字,ex:0912345678");
+		lblNewLabel_5.setBounds(94, 174, 211, 15);
+		panel_1.add(lblNewLabel_5);
+		
+		
 	}
-
 }

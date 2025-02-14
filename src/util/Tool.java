@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -30,6 +32,21 @@ import service.impl.RoomServiceImpl;
 
 
 public class Tool extends JFrame{
+	public static void main(String[] args) {
+		System.out.println(Tool.verifyPhone("0123456789"));
+		System.out.println("a".isEmpty());
+	}
+	
+	public static Boolean verifyPhone(String s) {
+		String pattern = "^\\d{10}$";
+		
+		Pattern r = Pattern.compile(pattern);
+		Matcher m = r.matcher(s);
+		if (m.find()) {
+			return true;
+		}
+		return false;
+	}
 	public static void save(Object s,String filename)
 	{
 		
